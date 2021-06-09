@@ -1,7 +1,6 @@
 {
   "name": "employee-generator",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "directories": {
     "lib": "lib",
@@ -16,5 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "inquirer": "^8.1.0"
-  }
+  },
+  "description": ""
 }
