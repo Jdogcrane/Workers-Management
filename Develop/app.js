@@ -1,18 +1,4 @@
 // Starter file provided by Instructor (03/09/2021) AC
-
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
-const inquirer = require("inquirer");
-const path = require("path");
-const fs = require("fs");
-
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
-
-const render = require("./lib/htmlRenderer");
-
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -37,112 +23,200 @@ const render = require("./lib/htmlRenderer");
 // for the provided `render` function to work! ```
 
 
+
+
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const inquirer = require("inquirer");
+const path = require("path");
+const fs = require("fs");
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
+const render = require("./lib/htmlRenderer");
+const Employee = require("./lib/Employee");
+
+// collection of all built workers. Ready to be sent to templates
+const builtWorkers = [];
+
+
+
+
+
+
+
 // Prevents user from leaving input empty by checking value true
 const validate = function (value) {
-    if (value) {
-        return true
-    } else {
-        return "Input field is empty please try again"
-    }
+  if (value) {
+    return true
+  } else {
+    return "Input field is empty please try again"
+  }
 }
 
 // creates prompts in terminal for the user to input data for the app to collect
-inquirer.prompt([
+
+const start = () => {
+  inquirer.prompt([
     {
-        type: 'input',
-        message: 'Title for your portfolio:',
-        name: 'mem1',
-        default: '-Worker Name goes here-'
+      type: "input",
+      message: "\n---------Manager---------\n name:",
+      name: "name",
+      validate: validate
     },
     {
-        type: 'confirm',
-        message: 'wanna keep going bro?',
-        name: 'next',
+      type: "input",
+      message: "employee ID:",
+      name: "id",
+      validate: validate
+    },
+    {
+      type: "input",
+      message: "email address:",
+      name: "email",
+      validate: validate
+    },
+    {
+      type: "input",
+      message: "office number:",
+      name: "office",
+      validate: validate
     }
-
-    // puts data from user inputs into function
-]).then(function ({mem1, next}) {
-
-    // css styling that is filled dynamically based off user input
-    // const style = `
-    
-    // body {
-    //     background-color: ${cssColor};
-    //     color: ${textColor}
-    //     }`
-
-    // basic template that gets filled dynamically based off user input
-    if (mem1){
-        var worker1 = `<div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">${mem1}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-        </div>`
-    } else {
-    worker1 = ``
+    // checks the inputs, then activates menu once are there. 
+    // Then puts inputs into a new manager then passes it to a array of builtworkers
+  ]).then((inputs) => {
+    if (inputs) {
+      const builtManager = new Manager(inputs.name, inputs.id, inputs.email, inputs.office)
+      builtWorkers.push(builtManager)
+      menu()
     }
+  })
+};
+
+// The menu for the prompts allowing user to choose who to add or finish 
+function menu() {
+  console.log('Current Built Workers', builtWorkers)
+  inquirer.prompt([
+    {
+      type: "list",
+      message: "\n---------MENU---------\n Select an Employee to add to the team:",
+      name: "menuChoice",
+      choices: [
+        "Engineer",
+        "Intern",
+        "Finish & Build"
+      ]
+    },
+
+    // depending on user choice start creating worker
+  ]).then(({ menuChoice }) => {
+    console.log(`\n ---------${menuChoice}---------`)
+
+    if (menuChoice === "Engineer") {
+      engineer()
+    }
+    if (menuChoice === "Intern") {
+      intern()
+    }
+    if (menuChoice === "Finish & Build") {
+      finish()
+    }
+  })
+};
+
+const engineer = () => {
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "name:",
+      name: "name",
+      validate: validate
+    },
+    {
+      type: "input",
+      message: "employee ID:",
+      name: "id",
+      validate: validate
+    },
+    {
+      type: "input",
+      message: "email address:",
+      name: "email",
+      validate: validate
+    },
+    {
+      type: "input",
+      message: "GitHub username:",
+      name: "github",
+      validate: validate
+    }
+    // checks the inputs, then activates menu once inputs is true
+  ]).then((inputs) => {
+    if (inputs) {
+      const builtEngineer = new Engineer(inputs.name, inputs.id, inputs.email, inputs.github)
+      builtWorkers.push(builtEngineer)
+      menu()
+    }
+  })
+};
+
+const intern = () => {
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "name:",
+      name: "name",
+      validate: validate
+    },
+    {
+      type: "input",
+      message: "employee ID:",
+      name: "id",
+      validate: validate
+    },
+    {
+      type: "input",
+      message: "email address:",
+      name: "email",
+      validate: validate
+    },
+    {
+      type: "input",
+      message: "school:",
+      name: "school",
+      validate: validate
+    }
+    // checks the inputs, then activates menu once inputs is true
+  ]).then((inputs) => {
+    if (inputs) {
+      const builtIntern = new Intern(inputs.name, inputs.id, inputs.email, inputs.school)
+      builtWorkers.push(builtIntern)
+      menu()
+    }
+  })
+};
 
 
+start(console.log("App Started"))
 
-    const template = `
-    <html lang="en">
-      <head>
-        <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-      </head>
-    <body> 
-    
-     ${worker1}
-          
-
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Card 2</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-      </div>
-
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Card 3</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-      </div>
-
-    </body>
-    </html>`;
-
-    // starts and sends data to function
-    if (!next) {
-        createReadMe(template)
-       }
+function finish() {
+  console.log('\x1b[33m%s\x1b[0m', 'Render');
+  htmlrenderer(builtWorkers)
+  // objects need to be collected here and distributed to correct templates?
 }
-);
-// creates README with dynamic inputs based off users desires.
-function createReadMe(template) {
 
-    fs.writeFile('./output/index.html', template, function (err) {
-        if (err) throw err, console.log('An error has stopped the file from being saved');
-        console.log('Data Saved');
-    });
-}
+
 // creates new style.css based off user input
 //     fs.writeFile('./output/style.css', style, function (err) {
-//         if (err) throw err, console.log('An error has stopped the file from being saved');
-//         console.log('Data Saved');
-//     });
-// }
+  //         if (err) throw err, console.log('An error has stopped the file from being saved');
+  //         console.log('Data Saved');
+  //     });
+  // }
+
+
+
+  // fs.writeFile('./output/index.html', function (err) {
+  //     if (err) throw err, console.log('An error has stopped the file from being saved');
+  //     console.log('Data Saved');
+  // });
+

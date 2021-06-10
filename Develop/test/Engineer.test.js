@@ -10,7 +10,7 @@ expect(emp.github).toBe(testEmail);
 
 test("getRole() should return \"Engineer\"", () => {
     const testRole = "Engineer";
-    const emp = new Engineer("laa", 1, "test@test.com", testRole);
+    const emp = new Engineer("laa", 1, "test@test.com", "github", testRole);
     expect(emp.getRole()).toBe(testRole)
 });
 
