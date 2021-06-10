@@ -37,3 +37,112 @@ const render = require("./lib/htmlRenderer");
 // for the provided `render` function to work! ```
 
 
+// Prevents user from leaving input empty by checking value true
+const validate = function (value) {
+    if (value) {
+        return true
+    } else {
+        return "Input field is empty please try again"
+    }
+}
+
+// creates prompts in terminal for the user to input data for the app to collect
+inquirer.prompt([
+    {
+        type: 'input',
+        message: 'Title for your portfolio:',
+        name: 'mem1',
+        default: '-Worker Name goes here-'
+    },
+    {
+        type: 'confirm',
+        message: 'wanna keep going bro?',
+        name: 'next',
+    }
+
+    // puts data from user inputs into function
+]).then(function ({mem1, next}) {
+
+    // css styling that is filled dynamically based off user input
+    // const style = `
+    
+    // body {
+    //     background-color: ${cssColor};
+    //     color: ${textColor}
+    //     }`
+
+    // basic template that gets filled dynamically based off user input
+    if (mem1){
+        var worker1 = `<div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">${mem1}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+        </div>`
+    } else {
+    worker1 = ``
+    }
+
+
+
+    const template = `
+    <html lang="en">
+      <head>
+        <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+      </head>
+    <body> 
+    
+     ${worker1}
+          
+
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Card 2</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Card 3</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+
+    </body>
+    </html>`;
+
+    // starts and sends data to function
+    if (!next) {
+        createReadMe(template)
+       }
+}
+);
+// creates README with dynamic inputs based off users desires.
+function createReadMe(template) {
+
+    fs.writeFile('./output/index.html', template, function (err) {
+        if (err) throw err, console.log('An error has stopped the file from being saved');
+        console.log('Data Saved');
+    });
+}
+// creates new style.css based off user input
+//     fs.writeFile('./output/style.css', style, function (err) {
+//         if (err) throw err, console.log('An error has stopped the file from being saved');
+//         console.log('Data Saved');
+//     });
+// }
