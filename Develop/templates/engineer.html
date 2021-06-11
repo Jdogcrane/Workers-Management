@@ -1,15 +1,14 @@
-<!-- Starter file provided by Instructor (03/09/2021) AC -->
 
-<div>
-    <div>
+<div class="col s7 m5 l4">
+    <div class="card-panel  orange darken-3 z-depth-4">
         <h2>{{ name }}</h2>
-        <h3>{{ role }}</h3>
-    </div>
-    <div>
-        <ul>
-            <li>ID: {{ id }}</li>
-            <li>Email: <a href="mailto:{{ email }}">{{ email }}</a></li>
-            <li>GitHub: <a href="https://github.com/{{ github }}" target="_blank" rel="noopener noreferrer">{{ github }}</a></li>
+        <h3><i class="fas fa-laptop-house"></i>{{ role }}</h3>
+        <ul class="collection">
+            <li class="collection-item">ID: {{ id }}</li>
+            <li class="collection-item">Email: <a
+                    href="{{ email }}">{{ email }}</a></li>
+            <li class="collection-item">GitHub: <a href="{{ github }}" target="_blank"
+rel="noopener noreferrer">{{ github }}</a></li>
         </ul>
     </div>
 </div>

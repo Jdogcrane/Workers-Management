@@ -1,30 +1,3 @@
-// Starter file provided by Instructor (03/09/2021) AC
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
-
-
-
-
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -39,12 +12,6 @@ const Employee = require("./lib/Employee");
 // collection of all built workers. Ready to be sent to templates
 const builtWorkers = [];
 
-
-
-
-
-
-
 // Prevents user from leaving input empty by checking value true
 const validate = function (value) {
   if (value) {
@@ -55,31 +22,34 @@ const validate = function (value) {
 }
 
 // creates prompts in terminal for the user to input data for the app to collect
-
 const start = () => {
   inquirer.prompt([
     {
       type: "input",
-      message: "\n---------Manager---------\n name:",
+      message: "\n---------> Manager <---------\n name:",
       name: "name",
+      default: "Chris",
       validate: validate
     },
     {
       type: "input",
       message: "employee ID:",
       name: "id",
+      default: "28387",
       validate: validate
     },
     {
       type: "input",
       message: "email address:",
       name: "email",
+      default: "Chris3982@gmail.com",
       validate: validate
     },
     {
       type: "input",
       message: "office number:",
       name: "office",
+      default: "2820",
       validate: validate
     }
     // checks the inputs, then activates menu once are there. 
@@ -95,22 +65,21 @@ const start = () => {
 
 // The menu for the prompts allowing user to choose who to add or finish 
 function menu() {
-  console.log('Current Built Workers', builtWorkers)
   inquirer.prompt([
     {
       type: "list",
-      message: "\n---------MENU---------\n Select an Employee to add to the team:",
+      message: "\n---------> MENU <---------\n Select an Employee to add to the team:",
       name: "menuChoice",
       choices: [
         "Engineer",
         "Intern",
-        "Finish & Build"
+        "Finish & Render"
       ]
     },
 
     // depending on user choice start creating worker
   ]).then(({ menuChoice }) => {
-    console.log(`\n ---------${menuChoice}---------`)
+    console.log(`\n ---------> ${menuChoice} <---------`)
 
     if (menuChoice === "Engineer") {
       engineer()
@@ -118,7 +87,7 @@ function menu() {
     if (menuChoice === "Intern") {
       intern()
     }
-    if (menuChoice === "Finish & Build") {
+    if (menuChoice === "Finish & Render") {
       finish()
     }
   })
@@ -130,24 +99,28 @@ const engineer = () => {
       type: "input",
       message: "name:",
       name: "name",
+      default: "Robbie",
       validate: validate
     },
     {
       type: "input",
       message: "employee ID:",
       name: "id",
+      default: "238378",
       validate: validate
     },
     {
       type: "input",
       message: "email address:",
       name: "email",
+      default: "RobbieM@gmail.com",
       validate: validate
     },
     {
       type: "input",
       message: "GitHub username:",
       name: "github",
+      default: "RobbieMRob",
       validate: validate
     }
     // checks the inputs, then activates menu once inputs is true
@@ -166,24 +139,28 @@ const intern = () => {
       type: "input",
       message: "name:",
       name: "name",
+      default: "Billy Jr.",
       validate: validate
     },
     {
       type: "input",
       message: "employee ID:",
       name: "id",
+      default: "2387",
       validate: validate
     },
     {
       type: "input",
       message: "email address:",
       name: "email",
+      default: "BillyJrJohn@gmail.com",
       validate: validate
     },
     {
       type: "input",
       message: "school:",
       name: "school",
+      default: "UNCC",
       validate: validate
     }
     // checks the inputs, then activates menu once inputs is true
@@ -195,28 +172,16 @@ const intern = () => {
     }
   })
 };
-
-
-start(console.log("App Started"))
+// starts the app
+start(console.log("\x1b[33m%s\x1b[0m", "---------> App Running <---------\n"))
 
 function finish() {
-  console.log('\x1b[33m%s\x1b[0m', 'Render');
-  htmlrenderer(builtWorkers)
-  // objects need to be collected here and distributed to correct templates?
-}
-
-
-// creates new style.css based off user input
-//     fs.writeFile('./output/style.css', style, function (err) {
-  //         if (err) throw err, console.log('An error has stopped the file from being saved');
-  //         console.log('Data Saved');
-  //     });
-  // }
-
-
-
-  // fs.writeFile('./output/index.html', function (err) {
-  //     if (err) throw err, console.log('An error has stopped the file from being saved');
-  //     console.log('Data Saved');
-  // });
+  console.log("\x1b[33m%s\x1b[0m", "\n---------> Rendering... <---------\n ");
+  if (!fs.existsSync(OUTPUT_DIR)){
+    fs.mkdirSync(OUTPUT_DIR);
+  }
+   fs.writeFileSync(outputPath, render(builtWorkers)) 
+   console.log("\x1b[32m", "Completed -----> Check output folder for built HTML")
+   console.log("\x1b[36m%s\x1b[0m", "\n---------> Shutting Down... <---------\n")
+};
 
