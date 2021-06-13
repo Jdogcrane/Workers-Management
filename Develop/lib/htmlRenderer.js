@@ -1,3 +1,5 @@
+// Starter file provided by Instructor (03/09/2021) AC
+
 const path = require("path");
 const fs = require("fs");
 

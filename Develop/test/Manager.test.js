@@ -1,7 +1,5 @@
-// Starter file provided by Instructor (03/09/2021) AC
 
 const Manager = require("../lib/Manager");
-// idk why weeeeee need employeeee
 const Employee = require("../lib/Employee"); 
 
 test("Can set office number via constructor argument", () => {
@@ -19,5 +17,5 @@ test('getRole() should return "Manager"', () => {
 test("Can get office number via getOffice()", () => {
     const testName = "100";
     const mng = new Manager("laa", 1, "test@test.com", testName);
-    expect(mng.getoffice()).toBe(testName);
+    expect(mng.getOfficeNumber()).toBe(testName);
 });
